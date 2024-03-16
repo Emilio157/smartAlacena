@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.circular(5)),
                     minimumSize: const Size(250, 70), 
                   ),
-              child: const Text("Inspeccionar", style: TextStyle(fontSize: 24),),
+              child: const Text("Actualizar", style: TextStyle(fontSize: 24),),
             ),
             const SizedBox(height: 30),
             Container(
