@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "303535737035",
+    "project_id": "smartshelter-29b27",
+    "storage_bucket": "smartshelter-29b27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303535737035:android:52b11655cacb64d059f34e",
+        "android_client_info": {
+          "package_name": "com.example.smart_alacena"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfIQd4zcsqFanA9DzNz2NhANDko8SrBEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
