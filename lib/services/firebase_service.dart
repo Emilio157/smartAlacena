@@ -17,6 +17,6 @@ Future<List> getUser(String? email) async {
 }
 
 //Function to save name and email in db
-Future<void> addPeople(String name, String email) async {
-  await db.collection("userInfo").add({"name": name, "email": email});
+Future<void> addPeople(String name, String email, String uid) async {
+  await db.collection("users").add({"name": name, "email": email, "uid": uid});
 }
