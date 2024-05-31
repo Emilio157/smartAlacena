@@ -2,94 +2,53 @@ import 'package:flutter/material.dart';
 //Importaciones de Firebase
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp( FirestoreButtonWidget());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class FirestoreButtonWidget extends StatefulWidget {
+  @override
+  _FirestoreButtonWidgetState createState() => _FirestoreButtonWidgetState();
+}
+
+class _FirestoreButtonWidgetState extends State<FirestoreButtonWidget> {
+  String _displayedData = '';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'smartAlacena',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 85, 107, 47), 
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Smart Organizer Shelter'),
         ),
-      ),
-      home: const MyHomePage(title: 'SmartAlacena'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  List<String> listItems = ["Aceite: No hay", "Harina: Si hay", "Pimienta: Si hay", "Sal: No hay", "Sazonador: No hay"];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Center(
-          child: Text(
-            widget.title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-        ),
-      ),
-      body: Center(
-        child: Column(
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
             ElevatedButton(
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 251, 231, 198),
-                    foregroundColor: Colors.black,
-                    shadowColor: Colors.black,
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    minimumSize: const Size(250, 70), 
-                  ),
-              child: const Text("Actualizar", style: TextStyle(fontSize: 24),),
+              onPressed: () {
+                // Lógica para recuperar los datos de Firestore
+                _retrieveDataFromFirestore();
+              },
+              child: Text('Obtener Lista'),
             ),
-            const SizedBox(height: 30),
-            Container(
-              width: 250.0,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-              ),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: listItems.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: const Icon(Icons.circle, size: 15.0),
-                    title: Text(
-                      listItems[index],
-                    ),
-                  );
-                },
+            SizedBox(height: 20),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(10),
+                color: Colors.grey[200],
+                child: SingleChildScrollView(
+                  child: Text(
+                    _displayedData,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
               ),
             ),
           ],
@@ -97,4 +56,27 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  void _retrieveDataFromFirestore() {
+    FirebaseFirestore.instance.collection('productos').get().then((querySnapshot) {
+      String data = '';
+      querySnapshot.docs.forEach((doc) {
+        var disponible = doc.data()['disponible'];
+        var nombre = doc.data()['nombre_producto'];
+        if(disponible == "True"){
+          data += 'Producto: $nombre, Estado: No hay\n';
+
+        }else{
+          data += 'Producto: $nombre, Estado: Sí hay\n';
+
+        }
+      });
+      setState(() {
+        _displayedData = data;
+      });
+    }).catchError((error) {
+      print('Error al obtener los datos: $error');
+    });
+  }
 }
+
