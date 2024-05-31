@@ -49,11 +49,28 @@ class UserService {
           ? await uploadProfilePic(image, userCredential.user!.uid)
           : null,
     );
+    debugPrint(user.uid);
 
     // update current user data
     _auth.currentUser!.updateDisplayName(username);
     _auth.currentUser!.updatePhotoURL(user.profilePicURL!);
     await _firestore.collection('users').doc(user.uid).set(user.toMap());
+    //Creando datos de la alacena
+    var users_collection_ref = _firestore.collection('users');
+    var subcollection_ref = users_collection_ref.doc(user.uid).collection('alacena');
+    String idCompartimiento = "";
+    for (int i=0;i<34;i++)
+    {
+      idCompartimiento = (i + 1).toString();
+      Map<String, String> dataCrear = {
+        'enable': 'no',
+        'name': '',
+        'value': '',
+        'id': idCompartimiento
+      };
+
+      subcollection_ref.doc(idCompartimiento).set(dataCrear);
+    }
     return user;
   }
 

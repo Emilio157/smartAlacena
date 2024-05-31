@@ -2,8 +2,11 @@ import 'package:smart_alacena/auth/auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_alacena/auth/screens/products_list.dart';
 
+import '../../app/menu/screen/menu_screen.dart';
+import '../../app/menu/screen/root_menu.dart';
+
 final appRouter = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/splash',
   routes: [
     GoRoute(
       path: '/login',
@@ -18,8 +21,12 @@ final appRouter = GoRouter(
       builder: (context, state) => const SplashScreen()
     ),
     GoRoute(
+      path: '/menu',
+      builder: (context, state) => const MenuScreen(),
+    ),
+    GoRoute(
       path: '/Root',
-      builder: (context, state) =>  FirestoreButtonWidget(),
+      builder: (context, state) => const RootApp(),
     ),
   ],
 );

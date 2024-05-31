@@ -59,7 +59,7 @@ class RegisterScreen extends StatelessWidget {
                       ],
                     ),
 
-                    const Text('PawtnerUp',
+                    const Text('SmartAlacena',
                         style: TextStyle(
                             fontFamily: 'PottaOne',
                             color: Colors.white,

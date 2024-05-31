@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         child: const Center(
           child: Text(
-            'PawtnerUp',
+            'SmartAlacena',
             style: TextStyle(
               color: Colors.white,
               fontSize: 40,

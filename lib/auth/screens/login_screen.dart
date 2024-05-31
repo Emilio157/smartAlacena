@@ -46,7 +46,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () => {},
                   ),
                   //const SizedBox(height: 5),
-                  const Text('smartShelter',
+                  const Text('SmartShelter',
                       style: TextStyle(
                           fontFamily: 'PottaOne',
                           color: Colors.white,
