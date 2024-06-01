@@ -1,7 +1,5 @@
 import 'package:smart_alacena/auth/auth.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_alacena/auth/screens/products_list.dart';
-
 import '../../app/menu/screen/menu_screen.dart';
 import '../../app/menu/screen/root_menu.dart';
 
