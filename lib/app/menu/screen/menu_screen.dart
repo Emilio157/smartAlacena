@@ -77,9 +77,26 @@ class __MenuViewState extends State<_MenuView> {
                     itemCount: products.length,
                     itemBuilder: (context, index) {
                       var product = products[index];
-                      return ListTile(
-                        title: Text('Producto: ${product.name}'),
-                        subtitle: Text('Estado: ${product.enable == 'yes' ? 'Sí hay' : 'No hay'}'),
+                      return Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 15),
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Color(0xFFFAFAFA),
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 1.5, // Cambia este valor para ajustar el ancho del borde
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: ListTile(
+                              title: Text('Producto: ${product.name}'),
+                              subtitle: Text(
+                                  'Estado: ${product.enable == 'yes' ? 'Sí hay' : 'No hay'}'),
+                            ),
+                          ),
+                        ],
                       );
                     },
                   );
