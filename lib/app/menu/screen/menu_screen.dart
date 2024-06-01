@@ -1,12 +1,10 @@
-// Debes eliminar esta importación
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
-
 import '../../../config/theme/color.dart';
 import '../../../provider/auth_provider.dart';
-
+import '../../../models/product_model.dart';
+import '../../../services/product_service.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -31,7 +29,6 @@ class MenuScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      // drawer: SideMenu(scaffoldKey: scaffoldKey),
       appBar: AppBar(
         title: Text(
           nameToShow,
@@ -41,7 +38,6 @@ class MenuScreen extends StatelessWidget {
           ),
         ),
         backgroundColor: const Color.fromRGBO(11, 96, 151, 1),
-
       ),
       body: const _MenuView(),
     );
@@ -49,21 +45,14 @@ class MenuScreen extends StatelessWidget {
 }
 
 class _MenuView extends StatefulWidget {
-
   const _MenuView();
   @override
   __MenuViewState createState() => __MenuViewState();
 }
 
 class __MenuViewState extends State<_MenuView> {
-  //Comprueba Ubicacion
+  final ProductService _productService = ProductService();
   String ubicacion = "Ubicacion Desconocida";
-
-  @override
-  void initState() {
-    super.initState();
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,12 +61,36 @@ class __MenuViewState extends State<_MenuView> {
       child: Column(
         children: [
           _buildAppBar(ubicacion),
-          Text("Aquí irá la lista"),
+          Expanded(
+            child: StreamBuilder<List<ProductModel>>(
+              stream: _productService.getProducts(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child: Text('No products found'));
+                } else {
+                  List<ProductModel> products = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      var product = products[index];
+                      return ListTile(
+                        title: Text('Producto: ${product.name}'),
+                        subtitle: Text('Estado: ${product.enable == 'yes' ? 'Sí hay' : 'No hay'}'),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
         ],
       ),
     );
   }
-
 
   Widget _buildAppBar(String location) {
     return Row(
