@@ -132,7 +132,7 @@ class __UserSettingsState extends State<_UserSettingsView> {
                 children: [
                       const SizedBox(height: 34),
                       GestureDetector(
-                        onTap: () async {
+                        /*onTap: () async {    ///AREA COMENTADA POR PREVENCION DE EDICION DE FOTOGRAFIA DEL USUARIO
                           image = await pickImageEdit(context);
                           // change the image
                           if (image == null) return ;
@@ -163,7 +163,7 @@ class __UserSettingsState extends State<_UserSettingsView> {
                           setState(() {
                             profilePhoto = imageURL;
                           });
-                        },
+                        },*/
                         child: CircleAvatar(
                           radius: 80,
                           backgroundColor: AppColor.darkblue,
@@ -202,7 +202,7 @@ class __UserSettingsState extends State<_UserSettingsView> {
                   const SizedBox(height: 5),
 
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 50),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15, 0, 15, 25),
                     child: SizedBox(
